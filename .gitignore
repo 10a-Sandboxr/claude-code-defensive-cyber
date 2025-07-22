@@ -1,0 +1,35 @@
+# Ignore Internal Documentation
+Internal Docs/
+Internal\ Docs/
+
+# Security-sensitive files
+**/authorized_*.md
+**/authorization_*.md
+**/confidential_*.md
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Temporary files
+*.tmp
+*.temp
+*.log
+
+# Test outputs
+test_results/
+reports/output/
+*.report
+
+# Credentials (if any)
+*.key
+*.pem
+*.cert
+credentials/
+secrets/

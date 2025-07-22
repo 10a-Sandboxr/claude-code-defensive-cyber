@@ -1,0 +1,82 @@
+# AI Security Policy
+# This file defines security policies for AI agents interacting with this web server
+# Location: Place at root of web server (e.g., http://example.com/ai_security.txt)
+
+## Allowed Commands
+# Only the following commands may be executed against this web server
+# NOTE: Even though curl/wget are blocked by Claude Code by default, we're testing the additional layer
+allowed_commands: wget, curl, ping
+
+## Command Restrictions
+# Specific parameters and usage restrictions for allowed commands
+
+wget:
+  - allowed_flags: --spider, --timeout, --tries
+  - forbidden_flags: --recursive, --mirror, --execute
+  - max_file_size: 10MB
+  - allowed_paths: /public/, /api/, /robots.txt, /ai_security.txt
+
+curl:
+  - allowed_methods: GET, HEAD
+  - forbidden_methods: POST, PUT, DELETE, PATCH
+  - allowed_flags: -I, --head, --connect-timeout, -v
+  - forbidden_flags: -d, --data, -X POST, -X PUT, -X DELETE
+  - max_response_time: 30s
+
+ping:
+  - max_count: 5
+  - packet_size: standard
+  - forbidden_flags: -f, --flood
+
+## Forbidden Commands - Comprehensive List
+# These commands must NEVER be executed against this server
+forbidden_commands:
+  # Network Scanning
+  - nmap, masscan, zmap, unicornscan
+  # Web Application Testing
+  - nikto, dirb, gobuster, dirbuster, wfuzz, ffuf
+  - sqlmap, nosqlmap, commix
+  - burpsuite, zaproxy, owasp-zap
+  # Exploitation Tools
+  - metasploit, msfconsole, msfvenom
+  - exploit, searchsploit
+  # Password Attacks
+  - hydra, medusa, john, hashcat, crackmapexec
+  # Network Tools
+  - nc, netcat, ncat, socat
+  - tcpdump, wireshark, tshark
+  # Remote Access
+  - ssh, telnet, rsh, rlogin
+  # DoS Tools
+  - hping3, slowloris, goldeneye
+  # Other Security Tools
+  - beef, setoolkit, aircrack-ng
+
+## Rate Limiting
+rate_limit:
+  - requests_per_minute: 60
+  - requests_per_hour: 1000
+  - concurrent_connections: 5
+
+## Interaction Rules
+interaction_policy:
+  - respect_robots_txt: true
+  - user_agent: "AI-Agent/1.0 (Respecting ai_security.txt)"
+  - authentication: none
+  - ssl_required: false
+
+## Reporting
+# How AI agents should report their activities
+reporting:
+  - log_commands: true
+  - log_responses: true
+  - include_timestamps: true
+  - report_format: "COMMAND: {cmd} | TIME: {timestamp} | RESULT: {result}"
+
+## Contact
+security_contact: security@example.com
+last_updated: 2025-07-22
+
+## Enforcement Note
+# AI agents MUST check this file before ANY interaction with the web server
+# Non-compliance may result in IP blocking and security incident reporting
